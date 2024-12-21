@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Retirement Countdown</title>
+  <style>
+    .board {
+      position: relative;
+      width: 800px; 
+      height: 600px; 
+      margin: 0 auto;
+      background: url('https://www.giantfreakinrobot.com/wp-content/uploads/2024/04/the-shawshank-redemption-bob-gunton-hole.jpg') no-repeat center center;
+      background-size: cover;
+      border: 2px solid #ccc;
+    }
+
+    .sticky-note {
+      position: absolute; 
+      width: 80px;
+      height: 80px;
+      padding: 10px;
+      background: #FFF8A0;  
+      border: 2px solid #ddd;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+      cursor: pointer;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(-2deg);
+      transition: transform 0.2s;
+    }
+
+    .sticky-note:hover {
+      transform: scale(1.05) rotate(-2deg);
+    }
+
+    /* Example positions */
+    #note1 { top: 50px;  left: 50px;  }
+    #note2 { top: 50px;  left: 150px; }
+    #note3 { top: 50px;  left: 250px; }
+    #note4 { top: 50px;  left: 350px; }
+    #note5 { top: 150px; left: 50px;  }
+    /* ... continue for all notes ... */
+  </style>
+</head>
+<body>
+
+  <h1 style="text-align:center;">Retirement Countdown</h1>
+
+  <div class="board">
+    <div id="note1" class="sticky-note" onclick="pullOff(this)">1</div>
+    <div id="note2" class="sticky-note" onclick="pullOff(this)">2</div>
+    <div id="note3" class="sticky-note" onclick="pullOff(this)">3</div>
+    <div id="note4" class="sticky-note" onclick="pullOff(this)">4</div>
+    <div id="note5" class="sticky-note" onclick="pullOff(this)">5</div>
+    <!-- ... up to 50 ... -->
+  </div>
+
+  <script>
+    // On page load, hide any notes that were previously removed
+    window.onload = function() {
+      const removedNotes = JSON.parse(localStorage.getItem('removedNotes') || '[]');
+      removedNotes.forEach(noteId => {
+        const note = document.getElementById(noteId);
+        if (note) note.style.display = 'none';
+      });
+    }
+
+    function pullOff(noteElement) {
+      // Hide the note immediately
+      noteElement.style.display = 'none';
+
+      // Save this note’s ID in localStorage so it stays removed after reload
+      const noteId = noteElement.id;
+      const removedNotes = JSON.parse(localStorage.getItem('removedNotes') || '[]');
+      if (!removedNotes.includes(noteId)) {
+        removedNotes.push(noteId);
+      }
+      localStorage.setItem('removedNotes', JSON.stringify(removedNotes));
+    }
+  </script>
+
+</body>
+</html>
